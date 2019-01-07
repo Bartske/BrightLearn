@@ -12,6 +12,7 @@ namespace DAL
     {
         public BrightLearnContext() : base("BrightLearnContext")
         {
+            Database.SetInitializer<BrightLearnContext>(null);
         }
 
         public DbSet<Chart> Chart { get; set; }
