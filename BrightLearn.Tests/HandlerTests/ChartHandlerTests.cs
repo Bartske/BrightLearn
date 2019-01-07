@@ -13,8 +13,8 @@ namespace BrightLearn.Tests.HandlerTests
     [TestClass]
     public class ChartHandlerTests
     {
-        ChartHandler handler = new ChartHandler(true);
-        GameHandler _gameHandler = new GameHandler(true);
+        ChartHandler handler = new ChartHandler();
+        GameHandler _gameHandler = new GameHandler();
         
         [TestMethod]
         public void test_UpdateValues_normal()

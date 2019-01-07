@@ -17,7 +17,7 @@ namespace Models
         [Required(ErrorMessage = "Dit veld moet ingevuld worden")]
         public string FirstName { get; set; }
 
-        [DisplayName("Tussenvoegsel")]
+        [DisplayName("Tussenvoegsel(s)")]
         [RegularExpression(@"^[a-zA-Z ]+$", ErrorMessage = "Gebruik alstublieft alleen letters")]
         public string MiddleName { get; set; }
 
@@ -26,7 +26,7 @@ namespace Models
         [Required(ErrorMessage = "Dit veld moet ingevuld worden")]
         public string LastName { get; set; }
 
-        [DisplayName("Email")]
+        [DisplayName("E-mail")]
         [DataType(DataType.EmailAddress)]
         [Required(ErrorMessage = "Dit veld moet ingevuld worden")]
         public string Email { get; set; }

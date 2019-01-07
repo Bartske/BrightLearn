@@ -37,7 +37,7 @@
                 <label><span id="NumOfUser"></span> gebruiker(s) gespeeld</label><br />
                 <label>Gemiddelede tijd: <span id="AVG_Time"></span> sec</label><br />
                 <label>Gemiddeld <span id="AVG_Points"></span> punten</label><br />
-                <label>Gemiddled <span id="AVG_Lifes"></span> levens over</label><br />
+                <label>Gemiddeled <span id="AVG_Lifes"></span> levens over</label><br />
                 <label>Gemiddeld <span id="AVG_NumOfBonus"></span> bonussen behaald</label><br />
                 <label><span id="ProcentFailed"></span><span>%</span> heeft het niet gehaald</label><br />
             </div>
@@ -92,16 +92,16 @@
                     $('.StatisticsHolder').addClass('hidden');
                 }
                 else {
-                    destroyCharts();
+                    //destroyCharts();
                     $('#QuestionLink').attr('href', '/Statistic/QuestionStatistics?GameID=' + GameID);
                     $('#QuestionButton').attr('name', GameID);
                     $('.StatisticsHolder').removeClass('hidden');
                     $('#NumOfUser').text(data.NumOfUsers);
-                    $('#AVG_Time').text(data.AVG_TimePlayed);
-                    $('#AVG_Points').text(data.AVG_Points);
-                    $('#AVG_Lifes').text(data.AVG_Lifes);
-                    $('#AVG_NumOfBonus').text(data.AVG_NumOfBonus);
-                    $('#ProcentFailed').text(data.Procent_Failed);
+                    $('#AVG_Time').text(data.AVGTimePlayed);
+                    $('#AVG_Points').text(data.AVGPoints);
+                    $('#AVG_Lifes').text(data.AVGLifes);
+                    $('#AVG_NumOfBonus').text(data.AVGNumOfBonus);
+                    $('#ProcentFailed').text(data.ProcentFailed);
                     drawChart(data.Charts[4], 'bar', 'TimeChart');
                     drawChart(data.Charts[3], 'bar', 'PointChart');
                     drawChart(data.Charts[2], 'bar', 'LifeChart');
@@ -170,7 +170,7 @@
             });
 
             Charts.push(pieChart);
-            console.log(Charts);
+            //console.log(Charts);
         }
     }
 </script>

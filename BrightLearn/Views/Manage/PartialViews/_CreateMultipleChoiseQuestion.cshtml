@@ -29,12 +29,12 @@
         <div class="answer" id="answerHolder">
             <div class="Numanswer inputBox">
                 <label>Fout antwoord 1:</label>
-                <input type="text" name="answer[0]" />
+                <input type="text" name="Answers[0]" />
             </div>
 
             <div class="Numanswer inputBox">
                 <label>Fout antwoord 2:</label>
-                <input type="text" name="answer[1]" />
+                <input type="text" name="Answers[1]" />
             </div>
         </div>
 
@@ -56,7 +56,7 @@
             $('#answerHolder').html("");
             let innerHTML = "";
             for (var i = 0; i < num; i++) {
-                innerHTML += '<div class="Numanswer inputBox"><label> Fout antwoord ' + (i + 1) + ':</label ><input type="text" name="answer[' + i + ']"/></div >';
+                innerHTML += '<div class="Numanswer inputBox"><label> Fout antwoord ' + (i + 1) + ':</label ><input type="text" name="Answers[' + i + ']"/></div >';
             }
             $('#answerHolder').html(innerHTML);
         }

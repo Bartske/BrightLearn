@@ -36,7 +36,7 @@
                 {
                     <div class="Numanswer inputBox">
                         <label>Fout antwoord @(i+1):</label>
-                        <input type="text" name="answer[@i]" value="@Model.Question.MultipleChoiseQuestion.Answers[i]" />
+                        <input type="text" name="Answers[@i]" value="@Model.Question.MultipleChoiseQuestion.Answers[i]" />
                     </div>
                 }
             }
@@ -60,7 +60,7 @@
             $('#answerHolder').html("");
             let innerHTML = "";
             for (var i = 0; i < num; i++) {
-                innerHTML += '<div class="Numanswer inputBox"><label> Fout antwoord ' + (i + 1) + ':</label ><input type="text" name="answer[' + i + ']"/></div >';
+                innerHTML += '<div class="Numanswer inputBox"><label> Fout antwoord ' + (i + 1) + ':</label ><input type="text" name="Answers[' + i + ']"/></div >';
             }
             $('#answerHolder').html(innerHTML);
         }

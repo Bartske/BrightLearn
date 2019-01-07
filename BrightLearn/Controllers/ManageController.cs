@@ -62,7 +62,7 @@ namespace BrightLearn.Controllers
             model.game = gameHandler.GetGame(GameID);
             model.game.Questions = question_Handler.GetQuestions(GameID);
 
-            return View(model);
+            return View("Questions", model);
         }
 
         public ActionResult CreateQuestion(int GameID)
@@ -89,9 +89,9 @@ namespace BrightLearn.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateMultipleChoiseQuestion( string Question, string Correctanswer, string[] answer, string GameID)
+        public ActionResult CreateMultipleChoiseQuestion( string Question, string Correctanswer, string[] Answers, string GameID)
         {
-            question_Handler.CreateMultipleChoiseQuestion(new Models.QuestionModels.MultipleChoiseQuestion() {Question = Question, Correctanswer = Correctanswer, Answers = answer.ToList()}, Convert.ToInt32(GameID));
+            question_Handler.CreateMultipleChoiseQuestion(new Models.QuestionModels.MultipleChoiseQuestion() {Question = Question, Correctanswer = Correctanswer, Answers = Answers.ToList()}, Convert.ToInt32(GameID));
 
             return RedirectToAction("Questions", new { GameID = Convert.ToInt32(GameID) });
         }
@@ -120,15 +120,19 @@ namespace BrightLearn.Controllers
             EditQuestionViewModel model = new EditQuestionViewModel();
 
             model.Question = question_Handler.GetQuestions(GameID).Where(q => q.QuestionID == QuestionID).Single();
+
+            if (model.Question.Type == QuestionType.MultipleChoise)
+                model.Question.MultipleChoiseQuestion.Answers.Remove(model.Question.MultipleChoiseQuestion.Correctanswer);
+
             model.Game = gameHandler.GetGame(GameID);
 
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult EditMultipleChoiseQuestion(int ID, string Question, string Correctanswer, string[] answer, string GameID)
+        public ActionResult EditMultipleChoiseQuestion(int ID, string Question, string Correctanswer, string[] Answers, string GameID)
         {
-            question_Handler.UpdateMultipleChoiseQuestion(new Models.QuestionModels.MultipleChoiseQuestion() { ID = ID, Question = Question, Correctanswer = Correctanswer, Answers = answer.ToList() });
+            question_Handler.UpdateMultipleChoiseQuestion(new Models.QuestionModels.MultipleChoiseQuestion() { ID = ID, Question = Question, Correctanswer = Correctanswer, Answers = Answers.ToList() });
             return RedirectToAction("Questions", new { GameID = Convert.ToInt32(GameID) });
         }
 

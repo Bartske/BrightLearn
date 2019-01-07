@@ -84,8 +84,8 @@ namespace Logic
                 throw new Exception("Een vraag moet uit meer dan 3 woorden bestaan!");
             if (Question.Correctanswer == "")
                 throw new Exception("Er moet een antwoord gegeven worden!");
-            if (Question.Answers.Count < 3)
-                throw new Exception("Je moet minimaal 3 antwoorden geven!");
+            if (Question.Answers.Count == 0)
+                throw new Exception("Je moet minimaal 2 antwoorden geven!");
             if (Question.Answers.Contains(""))
                 throw new Exception("Je mag geen leeg antwoord geven!");
 
@@ -227,16 +227,20 @@ namespace Logic
             if (Question.Answers.Contains(""))
                 throw new Exception("Je mag geen leeg antwoord geven!");
 
-            _dbContext.MultipleChoiseQuestionAnswer.RemoveRange(_dbContext.MultipleChoiseQuestionAnswer.Where(q => q.MultipleChoiseQuestionID == Question.ID));
+            Question.Answers.Add(Question.Correctanswer);
 
-            _dbContext.MultipleChoiseQuestionAnswer.Add(new Models.DataModels.MultipleChoiseQuestionAnswer() { MultipleChoiseQuestionID = Question.ID, Answer = Question.Correctanswer });
+            _dbContext.MultipleChoiseQuestionAnswer.RemoveRange(_dbContext.MultipleChoiseQuestionAnswer.Where(q => q.MultipleChoiseQuestionID == Question.ID));
 
             foreach (string Answer in Question.Answers)
             {
                 _dbContext.MultipleChoiseQuestionAnswer.Add(new Models.DataModels.MultipleChoiseQuestionAnswer() { MultipleChoiseQuestionID = Question.ID, Answer = Answer });
             }
 
-            int CorrectAnswerID = Convert.ToInt32(_dbContext.MultipleChoiseQuestionAnswer.Where(q => q.Answer == Question.Correctanswer && q.MultipleChoiseQuestionID == Question.ID).Select(q=>q.ID));
+            _dbContext.SaveChanges();
+
+            var id = _dbContext.MultipleChoiseQuestionAnswer.Where(q => q.Answer == Question.Correctanswer && q.MultipleChoiseQuestionID == Question.ID).Select(q => q.ID).First();
+
+            int CorrectAnswerID = Convert.ToInt32(id);
 
             Models.DataModels.MultipleChoiseQuestion MultipleChoiseQuestion = _dbContext.MultipleChoiseQuestion.Where(q => q.ID == Question.ID).First();
             MultipleChoiseQuestion.Question = Question.Question;
