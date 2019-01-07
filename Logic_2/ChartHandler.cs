@@ -192,7 +192,7 @@ namespace Logic
                 _dbContext.SaveChanges();
             }
 
-            string SQLCommand = String.Format("UPDATE gamestatistics SET NumOfUsers = ( SELECT COUNT(DISTINCT userID) FROM gamescore WHERE ChartGroupID = {0}),AVG_TimePlayed =( SELECT FLOOR(AVG(TimePlayed)) FROM gamescore WHERE ChartGroupID = {0}),AVG_Points =( SELECT FLOOR(AVG(Points)) FROM gamescore WHERE ChartGroupID = {0}),AVG_Lifes =( SELECT FLOOR(AVG(Lifes)) FROM gamescore WHERE ChartGroupID = {0}),AVG_NumOfBonus =( SELECT FLOOR(AVG(NumOfBonus)) FROM gamescore WHERE ChartGroupID = {0}),ProcentFailed ={1} WHERE GameID = {2}", ChartGroupID, ProcentFailed, GameID);
+            string SQLCommand = String.Format("UPDATE gamestatistics SET NumOfUsers = ( SELECT COUNT(DISTINCT userID) FROM gamescore WHERE ChartGroupID = {0}),AVGTimePlayed =( SELECT FLOOR(AVG(TimePlayed)) FROM gamescore WHERE ChartGroupID = {0}),AVGPoints =( SELECT FLOOR(AVG(Points)) FROM gamescore WHERE ChartGroupID = {0}),AVGLifes =( SELECT FLOOR(AVG(Lifes)) FROM gamescore WHERE ChartGroupID = {0}),AVGNumOfBonus =( SELECT FLOOR(AVG(NumOfBonus)) FROM gamescore WHERE ChartGroupID = {0}),ProcentFailed ={1} WHERE GameID = {2}", ChartGroupID, ProcentFailed, GameID);
             _dbContext.Database.ExecuteSqlCommand(SQLCommand);
             _dbContext.SaveChanges();
         }
