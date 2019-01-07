@@ -1,0 +1,176 @@
+﻿@model BrightLearn.ViewModels.Statistic.StatisticGameViewModel
+@{
+    ViewBag.Title = "Games";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/Styles/GameStatistics.css" rel="stylesheet" />
+<script src="~/Scripts/SearchHighScore.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+
+<div class="content-container">
+    <div class="selectproject">
+        <label class="headTekst">Spellen :</label>
+        <input type="text" placeholder="Spelnaam" id="SearchInput" onkeyup="SearchGameTable()" />
+
+        <div class="tablebox">
+            <table id="GameTable">
+                @foreach (Models.Game game in Model.Games)
+                {
+                    <tr>
+                        <td onclick="ShowStats(@game.ID)">
+                            @game.Name
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+
+    <div class="StatisticsHolder hidden">
+        <br />
+        <div class="ButtonHolder">
+                <a id="QuestionLink" href="/Statistic/QuestionStatistics?GameID="><input type="button" value="Vragen" style="width: 100%;"/></a>
+        </div>
+        <div id="GameStats">
+            <div class="chart-container stats-container" style="">
+                <label><span id="NumOfUser"></span> gebruiker(s) gespeeld</label><br />
+                <label>Gemiddelede tijd: <span id="AVG_Time"></span> sec</label><br />
+                <label>Gemiddeld <span id="AVG_Points"></span> punten</label><br />
+                <label>Gemiddled <span id="AVG_Lifes"></span> levens over</label><br />
+                <label>Gemiddeld <span id="AVG_NumOfBonus"></span> bonussen behaald</label><br />
+                <label><span id="ProcentFailed"></span><span>%</span> heeft het niet gehaald</label><br />
+            </div>
+            <div class="chart-container" style="">
+                <canvas style="width:auto;height:auto;max-width: 100%;" id="TimeChart"></canvas>
+            </div>
+            <div class="chart-container" style="">
+                <canvas style="width:auto;height:auto;max-width: 100%;" id="PointChart"></canvas>
+            </div>
+            <div class="chart-container" style="">
+                <canvas style="width:auto;height:auto;max-width: 100%;" id="LifeChart"></canvas>
+            </div>
+            <div class="chart-container" style="">
+                <canvas style="width:auto;height:auto;max-width: 100%;" id="PassedChart"></canvas>
+            </div>
+            <div class="chart-container" style="">
+                <canvas style="width:auto;height:auto;max-width: 100%;" id="BonusChart"></canvas>
+            </div>
+        </div>
+
+
+        <div id="QuestionStats" class="hidden">
+            <p> VRAGEN!!!!!!</p>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    function ShowGameStats() {
+        $('#GameStats').css("display", "grid");
+        $('#QuestionStats').css("display", "none");
+    }
+
+    function ShowQuestionStats() {
+        $('#GameStats').css("display", "none");
+        $('#QuestionStats').css("display", "grid");
+    }
+
+    function ShowStats(GameID) {
+        console.log(GameID);
+        $.ajax({
+            url: '../../Statistic/GetGameStats',
+            data: { 'GameID': GameID },
+            type: "post",
+            cache: false,
+            success: function (data) {
+                console.log(data);
+                if (data.Charts[0].Values.length == 0) {
+                    $('.StatisticsHolder').addClass('hidden');
+                }
+                else {
+                    destroyCharts();
+                    $('#QuestionLink').attr('href', '/Statistic/QuestionStatistics?GameID=' + GameID);
+                    $('#QuestionButton').attr('name', GameID);
+                    $('.StatisticsHolder').removeClass('hidden');
+                    $('#NumOfUser').text(data.NumOfUsers);
+                    $('#AVG_Time').text(data.AVG_TimePlayed);
+                    $('#AVG_Points').text(data.AVG_Points);
+                    $('#AVG_Lifes').text(data.AVG_Lifes);
+                    $('#AVG_NumOfBonus').text(data.AVG_NumOfBonus);
+                    $('#ProcentFailed').text(data.Procent_Failed);
+                    drawChart(data.Charts[4], 'bar', 'TimeChart');
+                    drawChart(data.Charts[3], 'bar', 'PointChart');
+                    drawChart(data.Charts[2], 'bar', 'LifeChart');
+                    drawChart(data.Charts[1], 'pie', 'PassedChart');
+                    drawChart(data.Charts[0], 'doughnut', 'BonusChart');
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+            }
+        });
+
+
+        function random_rgba() {
+            var o = Math.round, r = Math.random, s = 255;
+            return 'rgba(' + o(r() * s) + ',' + o(r() * s) + ',' + o(r() * s) + ',0.6)';
+        }
+
+        let Charts = new Array();
+
+        function destroyCharts() {
+            for (var i = 0; i < Charts.length; i++) {
+                Charts[i].destroy();
+            }
+            Charts = [];
+            console.log(Charts);
+        }
+
+
+        // Draw the chart and set the chart values
+        function drawChart(data, type, holderID) {
+            let newChart = document.getElementById(holderID).getContext('2d');
+
+            var labels_arr = new Array();
+            var values_arr = new Array();
+            var Color_arr = new Array();
+            var Border_arr = new Array();
+            var label = data.Name;
+
+            for (var i = 0; i < data.Values.length; i++) {
+                labels_arr.push(data.Values[i].Label);
+                values_arr.push(data.Values[i].Value);
+                var color = random_rgba();
+                Color_arr.push(color);
+                Border_arr.push(color.replace(/[^,]+(?=\))/, '1'));
+            }
+
+            let pieChart = new Chart(newChart, {
+                type: type,
+                data: {
+                    label: label,
+                    labels: labels_arr,
+                    datasets: [{
+                        label: label,
+                        data: values_arr,
+                        backgroundColor: Color_arr,
+                        borderColor: Border_arr,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: data.Name
+                    }
+                }
+            });
+
+            Charts.push(pieChart);
+            console.log(Charts);
+        }
+    }
+</script>

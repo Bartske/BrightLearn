@@ -1,0 +1,98 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #92BDE7;
+    color: #485e74;
+    line-height: 1.6;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.content-container {
+    background: #fff;
+    height: 600px;
+    max-height: 600px;
+    width: auto;
+    max-width: 880px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-auto-rows: 1em 2fr 1fr 1fr;
+    grid-gap: 1em;
+    padding: 10px;
+    overflow: hidden;
+}
+
+
+.Title {
+    grid-row: 1;
+    grid-column: 1/3;
+    text-align: center;
+    color: black !important;
+}
+
+.inputBox {
+    text-align: left;
+}
+
+    .inputBox > input {
+        width: 100%;
+        border: 2px solid rgb(202, 192, 192);
+        border-radius: 4px;
+        font-size: 16px;
+        margin-top: 2px;
+    }
+
+
+.headTekst {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.searchHolder {
+    margin-right: 20px;
+}
+
+.tablebox {
+    grid-row: 2;
+    grid-column: 1/3;
+    overflow-y: auto;
+}
+
+    .tablebox table th {
+        background: #92BDE7;
+        color: #fff;
+    }
+
+    .tablebox > table {
+        width: 100%;
+        height: auto;
+    }
+
+    .tablebox table tr {
+        height: 40px;
+        vertical-align: top;
+        border: 2px solid #999;
+    }
+
+    .tablebox table td {
+        height: 10px;
+        border-bottom: 2px solid #999;
+        vertical-align: middle;
+        text-align: center;
+        font-size: 20px;
+    }
+
+        .tablebox table td select {
+            width: 100%;
+            height: 100%;
+            font-size: 20px;
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+    .tablebox table tr:hover {
+        background: #92BDE7;
+        color: #fff;
+        cursor: pointer;
+    }

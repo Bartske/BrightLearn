@@ -1,0 +1,145 @@
+﻿@model BrightLearn.ViewModels.Manage.EditQuestionViewModel
+
+@using (Html.BeginForm("EditImageQuestion", "Manage", FormMethod.Post, new { id = "formPage", enctype = "multipart/form-data" }))
+{
+    <div name="values" style="display:none;">
+        @Html.HiddenFor(m => m.Question.QuestionID)
+        @Html.HiddenFor(m => m.Question.ImageQuestion.ID)
+        @Html.HiddenFor(m => m.Question.ImageQuestion.Radius)
+        @Html.HiddenFor(m => m.Question.ImageQuestion.X1)
+        @Html.HiddenFor(m => m.Question.ImageQuestion.X2)
+        @Html.HiddenFor(m => m.Question.ImageQuestion.Y1)
+        @Html.HiddenFor(m => m.Question.ImageQuestion.Y2)
+        @Html.HiddenFor(m => m.Question.ImageQuestion.img)
+        @Html.HiddenFor(m => m.Game)
+        <input type="hidden" name="GameID" value="@Model.Game.ID" />
+    </div>
+
+    <div class="content-container-ImageQuestion">
+        <link href="~/Content/Styles/AddImageQuestion.css" rel="stylesheet" />
+        <script>
+            let startX = @Model.Question.ImageQuestion.X1;
+            let startY = @Model.Question.ImageQuestion.Y1;
+            let endX = @Model.Question.ImageQuestion.X2;
+            let endY = @Model.Question.ImageQuestion.Y2;
+            let ratio = @Model.Question.ImageQuestion.Radius;
+            let Rect;
+            if (ratio == 0) {
+                Rect = true;
+            }
+            else {
+                Rect = false;
+            }
+        </script>
+        <script src="~/Scripts/draw_answer.js"></script>
+        <script>
+            function SaveData() {
+
+                //X = X / breedte afbeelding * 1000
+                //Y = Y / hoogte afbeelding * 1000
+                //R = R / breedte afbeelding * 1000
+
+                var offset = $('#imgHolder').offset();
+
+
+                //Bij negative getallen
+                if (endX < 0) {
+                    startX = startX + endX;
+                    endX = Math.abs(endX);
+                }
+                if (endY < 0) {
+                    startY = startY + endY;
+                    endY = Math.abs(endY);
+                }
+
+
+                var cX1 = (startX) / parentWidth * 1000;
+                var cX2 = (endX) / parentWidth * 1000;
+                var cY1 = (startY) / parentHeight * 1000;
+                var cY2 = (endY) / parentHeight * 1000;
+                var cR = (ratio) / parentWidth * 1000;
+
+                cX2 += cX1;
+                cY2 += cY1;
+
+                $('#Question_ImageQuestion_Radius').attr("value", Math.floor(cR));
+                $('#Question_ImageQuestion_X1').attr("value", Math.floor(cX1));
+                $('#Question_ImageQuestion_X2').attr("value", Math.floor(cX2));
+                $('#Question_ImageQuestion_Y1').attr("value", Math.floor(cY1));
+                $('#Question_ImageQuestion_Y2').attr("value", Math.floor(cY2));
+
+                $('#formPage').submit();
+            }
+
+            $(function () {
+                
+                $('#file').change(function () {
+                    DisplayImage(this);
+                });
+
+                function DisplayImage(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            $('#imgHolder').css("background-image", "url(" + e.target.result + ")");
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+            })
+        </script>
+
+        <style>
+            #imgHolder {
+                background-image: url('@Model.Question.ImageQuestion.IMG');
+            }
+        </style>
+
+        <div class="inputBox ImgUpload">
+            <label>Afbeelding uploaden :</label>
+
+            <input type="file" name="file" id="file">
+            <!--<input type="button" value="Afbeelding uploaden" onclick="UploadImage()" />-->
+        </div>
+
+        <div class="inputBox Question">
+            <label>Vraag :</label>
+            <!--<input type="text">-->
+            @Html.EditorFor(m => m.Question.ImageQuestion.Question)
+        </div>
+
+        <div class="imgHolder" id="imgHolder">
+            <!--<img src="~/Content/Sketch_Game.png" />!-->
+        </div>
+
+        <div class="explenation">
+            <p>
+                Teken een rechthoek of een circkle over het gedeelte waar het antwoord staat.
+            </p>
+        </div>
+
+        <div class="btnClose btnHolder">
+
+            <input type="button" value="Vraag Opslaan" onclick="SaveData()" />
+
+        </div>
+
+        <div class="ResetHolder btnHolder">
+            <input type="button" onclick="Reset()" value="Reset" />
+        </div>
+
+        <div class="RectangleHolder btnHolder">
+            <input type="button" onclick="Rectangle()" value="Rechthoek" />
+        </div>
+        <div class="ElipseHolder btnHolder">
+            <input type="button" onclick="Elipse()" value="Cirkel" />
+        </div>
+
+        <div class="colorPickerHolder btnHolder">
+            <input type="color" onchange="DrawColorChange()" value="#000000" id="colorPicker">
+        </div>
+
+    </div>
+}

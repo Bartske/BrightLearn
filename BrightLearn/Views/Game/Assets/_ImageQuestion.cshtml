@@ -1,0 +1,68 @@
+﻿@model Models.QuestionModels.ImageQuestion
+
+
+<img src="@Model.IMG" id="img_@Model.ID" />
+
+<script>
+    $('#img_@Model.ID').click(function (e) {
+        var offset = $(this).offset();
+
+        //X = (X – offset links) / breedte afbeelding * 1000
+        //Y = (Y – offset boven) / hoogte afbeelding * 1000
+
+        console.log(e.pageX + "---" + e.pageY);
+
+        var X = ((e.pageX - offset.left) / $(this).width()) * 1000;
+        var Y = ((e.pageY - offset.top) / $(this).height()) * 1000;
+
+        //int QuestionID, int x, int y
+        //$.get("/Statistic/SaveClickPoint?QuestionID=@Model.ID,x=" + X + ",y=" + Y);
+
+        var X1       = @Model.X1;
+        var X2       = @Model.X2;
+        var Y1       = @Model.Y1;
+        var Y2       = @Model.Y2;
+        var Radius   = @Model.Radius;
+        var img      = '@Model.IMG';
+        var Question = '@Model.Question';
+
+
+        if (Radius != 0)
+            var R = ((Radius - offset.left) / $(this).width()) * 1000;
+        else
+            var R = 0;
+
+        console.log("OffsetL = " + offset.left + ", OffsetT = " + offset.top);
+        console.log("X = " + X + ", Y = " + Y);
+        console.log("R = " + R);
+        console.log("X1 = " + X1 + ",X2 = " + X2 + ",Y1 = " + Y1 + ",Y2 = " + Y2);
+
+        //Kijken of het antwoordvlak een cirkel is
+        if (R != 0) {
+            //Afstand = √(X1 - X) ²+(Y1 - Y) ²
+            var Distance = Math.sqrt(Math.pow(X1 - X, 2) + Math.pow(Y1 - Y, 2));
+
+            R = Math.abs(R);
+
+            console.log('D = ' + Distance + " AND R = " + R);
+
+            if (Distance > R) {
+                RemoveLife();
+            }
+            else {
+                console.log('GOED');
+                NextQuestion();
+            }
+        }
+        else { // Als het antwoordvlak een rechthoek is
+            if (X > X1 && X < X2 && Y > Y1 && Y < Y2) {
+                NextQuestion();
+            }
+            else {
+                RemoveLife();
+            }
+        }
+
+    });
+    
+</script>

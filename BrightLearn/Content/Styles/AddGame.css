@@ -1,0 +1,110 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+body {
+    background: #92BDE7;
+    color: #485e74;
+    line-height: 1.6;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.content-container > form {
+    background: #fff;
+    height: 600px;
+    max-height: 600px;
+    width: auto;
+    max-width: 880px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.NumLifes {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+.BonusTime {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+.GameName {
+    grid-column: 1 / 3;
+    grid-row: 1;
+}
+.GameImage {
+    grid-column: 1 / 3;
+    grid-row: 2;
+}
+
+.inputBox {
+    text-align: left;
+}
+
+    .inputBox > input {
+        width: 100%;
+        border: 2px solid rgb(202, 192, 192);
+        border-radius: 4px;
+        font-size: 16px;
+        margin-top: 2px;
+    }
+
+.btnSave{
+    grid-column: 2;
+    grid-row: 8;
+    margin: 0;
+    width: 100%;
+    min-height: 40px;
+    height: auto;
+    padding: 0;
+    border: 0;
+    background: #92BDE7;
+    color: #fff;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+@media(max-width: 850px) {
+    .content-container >form  {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .NumLifes {
+        grid-column: 1;
+        grid-row: 3;
+    }
+
+    .BonusTime {
+        grid-column: 1;
+        grid-row: 4;
+    }
+
+    .btnSave {
+        grid-column: 1;
+        grid-row: 10;
+    }
+}
+
+@media(min-width: 851px) {
+    .content-container form{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-height: unset;
+        overflow: unset;
+    }
+
+    .btnSave {
+        grid-column: 2;
+        grid-row: 8;
+    }
+}

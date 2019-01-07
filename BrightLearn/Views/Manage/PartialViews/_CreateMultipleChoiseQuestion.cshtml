@@ -1,0 +1,66 @@
+﻿@model BrightLearn.ViewModels.Manage.AddQuestionViewModel
+
+@using (Html.BeginForm("CreateMultipleChoiseQuestion", "Manage", FormMethod.Post))
+{
+    <div name="values" style="display:none;">
+        <input type="hidden" value="@Model.Game.ID" name="GameID"/>
+    </div>
+
+    <div class="content-container-MultipleChoiseQuestion">
+        <link href="~/Content/Styles/AddMultipleChoiseQuestion.css" rel="stylesheet" />
+
+        <div class="inputBox Question">
+            <label>Vraag :</label>
+            <input type="text" name="Question">
+        </div>
+
+
+        <div class="inputBox Correctanswer">
+            <label>Correct antwoord :</label>
+            <input type="text" name="Correctanswer">
+        </div>
+
+
+        <div class="inputBox Numanswer">
+            <label>Aantal foute antwoorden :</label>
+            <input type="number" id="NumOfanswer" min="2" max="8" value="2" onchange="CreateanswerBoxes()">
+        </div>
+
+        <div class="answer" id="answerHolder">
+            <div class="Numanswer inputBox">
+                <label>Fout antwoord 1:</label>
+                <input type="text" name="answer[0]" />
+            </div>
+
+            <div class="Numanswer inputBox">
+                <label>Fout antwoord 2:</label>
+                <input type="text" name="answer[1]" />
+            </div>
+        </div>
+
+        <div class="SubmitBTN btnHolder">
+            <input type="submit" value="Opslaan" />
+        </div>
+
+    </div>
+    
+}
+
+<script>
+    function CreateanswerBoxes() {
+        if ($('#NumOfanswer').val() > 8 || $('#NumOfanswer').val() < 2) {
+            alert('Je moet tussen de 1 en 9 antwoorden hebben!');
+        }
+        else {
+            let num = $('#NumOfanswer').val();
+            $('#answerHolder').html("");
+            let innerHTML = "";
+            for (var i = 0; i < num; i++) {
+                innerHTML += '<div class="Numanswer inputBox"><label> Fout antwoord ' + (i + 1) + ':</label ><input type="text" name="answer[' + i + ']"/></div >';
+            }
+            $('#answerHolder').html(innerHTML);
+        }
+    }
+
+  
+</script>

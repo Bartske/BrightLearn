@@ -1,0 +1,473 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #92BDE7;
+    color: #485e74;
+    line-height: 1.6;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+hr {
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.hidden{
+    display: none;
+}
+
+#img {
+}
+
+.greenBorder {
+    border-style: solid;
+    border-color: green;
+}
+
+.redBorder {
+    border-style: solid;
+    border-color: red;
+}
+
+
+.green{
+    color: green !important;
+    font-weight: bold;
+}
+
+.red {
+    color: red !important;
+    font-weight: bold;
+}
+
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    max-width: 1173px;
+    min-height: 700px;
+    height: auto;
+    background: rgb(201, 230, 255);
+}
+
+    .container label {
+        color: white;
+    }
+
+.backBox {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+    .backBox img {
+        cursor: pointer;
+    }
+
+.List_answer_Bullets {
+    list-style-type: none;
+    cursor: pointer;
+    font-weight: 900;
+    font-size: 20px;
+}
+
+.text-blue {
+    color: blue;
+    font-weight: bolder;
+    font-style: oblique;
+}
+
+
+/* allign stuf */
+/* Smal Screen */
+@media(max-width:749px) {
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        box-shadow: 0 0 25px 0px rgba(72, 94, 116, 0.7);
+    }
+
+    .backBox {
+        grid-column: 1;
+        grid-row: 1;
+        height: 100px;
+        width: 100px;
+        left: -120px;
+        background: blue;
+        border-bottom-right-radius: 100%;
+        padding: 1em;
+    }
+
+        .backBox img {
+            margin-left: -20px;
+            width: 40px;
+            height: auto;
+        }
+
+    .questionBox {
+        grid-row: 1;
+        grid-column: 2 / 3;
+        padding-top: 20px;
+        text-align: center;
+    }
+
+        .questionBox label {
+            position: relative;
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
+        }
+
+    .answerBox {
+        grid-column: 1 / 4;
+        grid-row: 2 / 5;
+        padding: 0;
+        margin-top: -10px;
+        margin-left: 0;
+    }
+
+        .answerBox img {
+            width: 90vw;
+            max-width: 600px;
+            height: auto;
+        }
+
+    .timeBox {
+        grid-column: 1;
+        grid-row: 5;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .time {
+        background: #92BDE7;
+        border-radius: 50%;
+        height: 100px;
+        width: 100px;
+    }
+
+    .lifeBox {
+        grid-column: 2;
+        grid-row: 5;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .life {
+        background: #92BDE7;
+        border-radius: 50%;
+        height: 100px;
+        width: 100px;
+    }
+
+    .bonusBox {
+        grid-column: 3;
+        grid-row: 5;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .bonus {
+        background: #92BDE7;
+        border-radius: 50%;
+        height: 100px;
+        width: 100px;
+    }
+}
+
+/* medium */
+@media(max-width: 900px) and (min-width: 750px) {
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        box-shadow: 0 0 25px 0px rgba(72, 94, 116, 0.7);
+    }
+
+    .backBox {
+        grid-column: 1;
+        grid-row: 1;
+        height: 130px;
+        width: 130px;
+        left: -150px;
+        background: blue;
+        border-bottom-right-radius: 100%;
+        padding: 1em;
+    }
+
+
+        .backBox img {
+            margin-left: -20px;
+            width: 70px;
+            height: auto;
+        }
+
+
+    .questionBox {
+        grid-row: 1;
+        grid-column: 2 / 7;
+        padding-top: 20px;
+        text-align: center;
+    }
+
+        .questionBox label {
+            position: relative;
+            font-size: 30px;
+            font-weight: bold;
+            color: black;
+        }
+
+    .answerBox {
+        grid-column: 2 / 7;
+        grid-row: 2 / 5;
+        padding: 0;
+        margin-top: -30px;
+        margin-left: 0;
+    }
+
+        .answerBox img {
+            height: 400px;
+            Width: 600px;
+        }
+
+    .timeBox {
+        grid-column: 2;
+        grid-row: 5;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .time {
+        background: #92BDE7;
+        border-radius: 50%;
+        height: 130px;
+        width: 130px;
+    }
+
+    .lifeBox {
+        grid-column: 4;
+        grid-row: 5;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .life {
+        background: #92BDE7;
+        border-radius: 50%;
+        height: 130px;
+        width: 130px;
+    }
+
+    .bonusBox {
+        grid-column: 6;
+        grid-row: 5;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .bonus {
+        background: #92BDE7;
+        border-radius: 50%;
+        height: 130px;
+        width: 130px;
+    }
+}
+
+/* Big screen */
+@media(min-width: 901px) and (max-width: 1049px) {
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        box-shadow: 0 0 25px 0px rgba(72, 94, 116, 0.7);
+        grid-auto-rows: minmax(10px, 150px);
+    }
+
+    .backBox {
+        grid-column: 1;
+        grid-row: 1;
+        height: 130px;
+        width: 130px;
+        left: -150px;
+        background: blue;
+        border-bottom-right-radius: 100%;
+        padding: 1em;
+    }
+
+
+        .backBox img {
+            margin-left: -20px;
+            width: 70px;
+            height: auto;
+        }
+
+
+    .questionBox {
+        grid-row: 1;
+        grid-column: 2 / 7;
+        padding-top: 20px;
+        text-align: center;
+    }
+
+        .questionBox label {
+            position: relative;
+            font-size: 30px;
+            font-weight: bold;
+            color: black;
+        }
+
+    .answerBox {
+        grid-column: 2 / 8;
+        grid-row: 2 / 5;
+        padding: 20px;
+        margin-top: -40px;
+    }
+
+        .answerBox img {
+            height: 465px;
+            Width: 700px;
+        }
+
+    .timeBox {
+        grid-column: 1;
+        grid-row: 2;
+        padding: 20px;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .time {
+        background: #92BDE7;
+        border-radius: 50%;
+        height: 120px;
+        width: 120px;
+    }
+
+    .lifeBox {
+        grid-column: 1;
+        grid-row: 3;
+        padding: 20px;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .life {
+        background: #92BDE7;
+        border-radius: 50%;
+        height: 120px;
+        width: 120px;
+    }
+
+    .bonusBox {
+        grid-column: 1;
+        grid-row: 4;
+        padding: 20px;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .bonus {
+        background: #92BDE7;
+        border-radius: 50%;
+        height: 120px;
+        width: 120px;
+    }
+}
+
+/* Big Big screen */
+@media(min-width: 1050px) {
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        box-shadow: 0 0 25px 0px rgba(72, 94, 116, 0.7);
+    }
+
+    .backBox {
+        grid-column: 1;
+        grid-row: 1;
+        height: 130px;
+        width: 130px;
+        left: -150px;
+        background: blue;
+        border-bottom-right-radius: 100%;
+        padding: 1em;
+    }
+
+
+        .backBox img {
+            margin-left: -20px;
+            width: 70px;
+            height: auto;
+        }
+
+
+    .questionBox {
+        grid-row: 1;
+        grid-column: 2 / 7;
+        padding-top: 20px;
+        text-align: center;
+    }
+
+        .questionBox label {
+            position: relative;
+            font-size: 30px;
+            font-weight: bold;
+            color: black;
+        }
+
+    .answerBox {
+        grid-column: 2 / 7;
+        grid-row: 2 / 7;
+        padding: 20px;
+        margin-top: -50px;
+    }
+
+        .answerBox img {
+            height: 550px;
+            Width: 825px;
+        }
+
+    .timeBox {
+        grid-column: 1;
+        grid-row: 3;
+        padding: 5px;
+        text-align: center;
+    }
+
+    .time {
+        background: #92BDE7;
+        border-radius: 50%;
+        height: 130px;
+        width: 130px;
+    }
+
+    .lifeBox {
+        grid-column: 1;
+        grid-row: 4;
+        padding: 5px;
+        text-align: center;
+    }
+
+    .life {
+        background: #92BDE7;
+        border-radius: 50%;
+        height: 130px;
+        width: 130px;
+    }
+
+    .bonusBox {
+        grid-column: 1;
+        grid-row: 5;
+        padding: 5px;
+        text-align: center;
+    }
+
+    .bonus {
+        background: #92BDE7;
+        border-radius: 50%;
+        height: 130px;
+        width: 130px;
+    }
+}

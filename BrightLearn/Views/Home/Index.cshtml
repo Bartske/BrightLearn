@@ -1,0 +1,22 @@
+﻿@model  BrightLearn.ViewModels.Home.IndexViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/Styles/projecten.css" rel="stylesheet" />
+<div class="content-container">
+
+    @for (int i = 0; i < Model.Games.Count; i++)
+    {
+        <div class="project">
+            <a href="@Url.Action("Index", "Game", new { ID = Model.Games[i].ID })">
+                <img src="@Model.Games[i].ImageURL" />
+            </a>
+            <div class="projectInfo">
+                <label>@Model.Games[i].Name</label>
+            </div>
+        </div>
+    }
+
+
+</div>

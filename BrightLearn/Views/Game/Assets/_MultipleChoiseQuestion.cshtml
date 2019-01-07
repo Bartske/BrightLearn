@@ -1,0 +1,33 @@
+﻿@model Models.QuestionModels.MultipleChoiseQuestion
+
+<ul class="List_answer_Bullets">
+    @foreach (string answer in Model.Answers)
+    {
+        <li class="answerItem_@Model.ID list-group-item">@answer</li>
+        <hr>
+    }
+</ul>
+
+
+<script>
+    $('.answerItem_@Model.ID').click(function (e) {
+        var offset = $(this).offset();
+
+        var Givenanswer = $(this).html();
+        
+        var Correctanswer = '@Model.Correctanswer';
+
+        var Question = '@Model.Question';
+
+
+        if (Givenanswer == Correctanswer) {
+            console.log('GOED');
+            NextQuestion();
+        }
+        else {
+            RemoveLife();
+        }
+
+    });
+
+</script>

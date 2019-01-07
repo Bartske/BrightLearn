@@ -1,0 +1,52 @@
+﻿@model BrightLearn.ViewModels.Home.AccountViewModel
+@{
+    ViewBag.Title = "Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/Styles/account.css" rel="stylesheet" />
+
+<div class="content-container">
+
+    @using (Html.BeginForm("UpdateAccount", "Home", FormMethod.Post, new { @class = "data-form" }))
+    {
+        @Html.HiddenFor(Model => Model.user.AccountType)
+        @Html.HiddenFor(Model => Model.user.Password)
+        @Html.HiddenFor(Model => Model.user.ID)
+
+        <div class="inputBox">
+            <label>@Html.LabelFor(model => model.user.FirstName) :</label>
+            @Html.EditorFor(model => model.user.FirstName)
+            @Html.ValidationMessageFor(model => model.user.FirstName)
+        </div>
+        <div class="inputBox">
+            <label>@Html.LabelFor(model => model.user.MiddleName) :</label>
+            @Html.EditorFor(model => model.user.MiddleName)
+            @Html.ValidationMessageFor(model => model.user.MiddleName)
+        </div>
+        <div class="inputBox">
+            <label>@Html.LabelFor(model => model.user.LastName) :</label>
+            @Html.EditorFor(model => model.user.LastName)
+            @Html.ValidationMessageFor(model => model.user.LastName)
+        </div>
+
+        <div class="inputBox fullwidth">
+            <label>@Html.LabelFor(model => model.user.Email) :</label>
+            @Html.EditorFor(model => model.user.Email)
+            @Html.ValidationMessageFor(model => model.user.Email)
+        </div>
+        <div class="inputBox fullwidth">
+            <label>@Html.LabelFor(model => model.user.UserName) :</label>
+            @Html.EditorFor(model => model.user.UserName)
+            @Html.ValidationMessageFor(model => model.user.UserName)
+        </div>
+        <div class="inputBox fullwidth">
+            <span>@Html.DisplayFor(model => model.ValidationErrorMessage)</span>
+        </div>
+        <input type="submit" value="Wijzigen" />
+        <br />
+    }
+    @if (Model.passwordViewModel == null) { Model.passwordViewModel = new BrightLearn.ViewModels.Home.PasswordViewModel(); }
+    @Html.Partial("ChangePassword", Model.passwordViewModel)
+
+</div>

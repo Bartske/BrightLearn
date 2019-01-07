@@ -1,0 +1,21 @@
+﻿@model BrightLearn.ViewModels.Manage.EditQuestionViewModel
+@{
+    ViewBag.Title = "Vragen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/draw_awnser.js"></script>
+
+<div class="content-container">
+
+
+    @if (Model.Question.Type == Models.QuestionType.ImageQuestion)
+    {
+        @Html.Partial("PartialViews/_EditImageQuestion", Model)
+    }
+    else if (Model.Question.Type == Models.QuestionType.MultipleChoise)
+    {
+        @Html.Partial("PartialViews/_EditMultipleChoiseQuestion", Model)
+    }
+
+
+    </div>

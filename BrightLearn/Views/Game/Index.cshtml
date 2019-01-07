@@ -1,0 +1,220 @@
+﻿@model BrightLearn.ViewModels.Game.IndexViewModel
+@using Models
+@{
+    Layout = "~/Views/Shared/_GameLayout.cshtml";
+}
+
+<script>
+var model = @Html.Raw(Json.Encode(Model));
+    var Questionarr = new Array();
+</script>
+<div class="backBox">
+    <a href="@Url.Action("Index", "Home")" id="backBTN">
+        <img src="~/Content/img/arrow.png" />
+    </a>
+</div>
+<div class="questionBox">
+    <label id="QuestionLabel"></label>
+</div>
+<div class="answerBox" id="answerBox">
+
+    @for (int i = 0; i < Model.Questions.Count; i++)
+    {
+        string hide = "";
+
+        if (i != 0)
+        {
+            hide = "hidden";
+        }
+
+        <div id="@i" class="@hide">
+
+            @if (Model.Questions[i].Type == QuestionType.ImageQuestion)
+            {
+                @Html.Partial("../Game/Assets/_ImageQuestion", Model.Questions[i].ImageQuestion)
+
+                <script>
+                        Questionarr.push('@Model.Questions[i].ImageQuestion.Question');
+                </script>
+                if (i == 0)
+                {
+                    <script>
+                        $('#QuestionLabel').html('@Model.Questions[i].ImageQuestion.Question');
+                    </script>
+                }
+            }
+            else if (Model.Questions[i].Type == QuestionType.MultipleChoise)
+            {
+                @Html.Partial("../Game/Assets/_MultipleChoiseQuestion", Model.Questions[i].MultipleChoiseQuestion)
+
+                <script>
+                        Questionarr.push('@Model.Questions[i].MultipleChoiseQuestion.Question');
+                </script>
+
+                if (i == 0)
+                {
+                    <script>
+                        $('#QuestionLabel').html('@Model.Questions[i].MultipleChoiseQuestion.Question');
+                    </script>
+                }
+            }
+        </div>
+
+    }
+</div>
+<div class="timeBox">
+    <div class="time" id="timeHolder"></div>
+</div>
+<div class="lifeBox">
+    <div class="life" id="lifeHolder"></div>
+</div>
+<div class="bonusBox">
+    <div class="bonus" id="bonusHolder"></div>
+</div>
+
+<script>
+
+    var QuestionNumber = 0;
+    var NumberOfQuestions = model.Questions.length;
+
+    let Score = 0;
+    let NumberOfBonus = 0;
+
+    //Game values
+    let Lifes = model.Lifes;
+    let MaxLifes = model.Lifes;
+
+    let BonusTime = 0; // dit moet optellen tot dat het bij de max is
+    let BonusMaxTime = model.bonusTime * 1000; // aantal secondes * 1000
+
+    function LoadQuestion() {
+        $('#QuestionLabel').html(Questionarr[QuestionNumber]);
+        if (QuestionNumber < NumberOfQuestions) {
+            $('#' + (QuestionNumber - 1)).addClass('hidden');
+            $('#' + QuestionNumber).removeClass('hidden');
+        }
+    }
+
+    function UpdateScore() {
+        Score += 5;
+
+        if (BonusTime < BonusMaxTime) {
+            Score += 5;
+            NumberOfBonus++;
+        }
+    }
+
+    function CreateHighScoreView()
+    {
+        let Time;
+        let LifesLost = MaxLifes - Lifes;
+
+        if (mn == 0) {
+            Time = sc + " seconden";
+        }
+        else {
+            Time = mn + " minuten en " + sc + " seconden";
+        }
+
+        let HTML = "";
+
+        HTML += "<h3>Je hebt <span class=\"text-blue\">" + Score + "</span> punten behaald.</h3>";
+        HTML += "<h3>Je hebt er <span class=\"text-blue\">" + Time + "</span> over gedaan.</h3>";
+        HTML += "<h3>Je hebt <span class=\"text-blue\">" + LifesLost + "</span> levens verloren.</h3>";
+        HTML += "<h3>Je hebt <span class=\"text-blue\">" + NumberOfBonus + "</span> keer de bonus behaald.</h3>";
+
+        return HTML;
+    }
+
+    function StopSketch() {
+        run = false;
+        $('.timeBox').addClass('hidden');
+        $('.lifeBox').addClass('hidden');
+        $('.bonusBox').addClass('hidden');
+    }
+
+    function SaveResult(passed) {
+        let time = (mn * 60) + sc;
+
+        $.ajax({
+            url: '../../Statistic/CreateGameScore',
+            data: { 'GameID': @Model.GameID, 'points': Score, 'time': time, 'lifes': Lifes, 'NumOfBonus': NumberOfBonus, 'passed': passed },
+            type: "post",
+            cache: false,
+            success: function (savingStatus) {
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+            }
+        });
+    }
+
+    function FinalScore() {
+        SaveResult(true);
+        StopSketch();
+        let time = (mn * 60) + sc;
+        $('#QuestionLabel').html("Het spel is klaar!");
+        //public void CreateHighScore(int GameID, int points, int time)
+
+        $.ajax({
+            url: '../../HighScore/CreateHighScore',
+            data: { 'GameID': @Model.GameID, 'points': Score, 'time' : time },
+            type: "post",
+            cache: false,
+            success: function (savingStatus) {
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+            }
+        });
+
+        $('#' + (QuestionNumber - 1)).html(CreateHighScoreView());
+    }
+
+    function GameOver() {
+        SaveResult(false);
+        StopSketch();
+        $('#QuestionLabel').html("Helaas, je hebt het niet gehaald!");
+        $('#' + (QuestionNumber)).html(CreateHighScoreView());
+    }
+
+    function NextQuestion() {
+        QuestionNumber++;
+
+        UpdateScore();
+
+        if (QuestionNumber == NumberOfQuestions) {
+            FinalScore();
+        }
+        else {
+            $('#img').removeClass('redBorder');
+            $('#img').addClass('greenBorder');
+
+            $('#QuestionLabel').removeClass('red');
+            $('#QuestionLabel').addClass('green');
+
+            LoadQuestion();
+        }
+        BonusTime = 0;
+    }
+
+    function RemoveLife() {
+        Lifes -= 1;
+        if (Lifes == 0) {
+            GameOver();
+        }
+        else {
+            $('#img').removeClass('greenBorder');
+            $('#img').addClass('redBorder');
+
+            $('#QuestionLabel').removeClass('green');
+            $('#QuestionLabel').addClass('red');
+        }
+    }
+
+    $(document).ready(function () {
+
+
+
+    });
+</script>
+
+<script src="~/Scripts/sketch-game.js"></script>

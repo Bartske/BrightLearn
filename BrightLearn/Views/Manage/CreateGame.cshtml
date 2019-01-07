@@ -1,0 +1,41 @@
+﻿@model BrightLearn.ViewModels.Manage.CreateGameViewModel
+@{
+    ViewBag.Title = "CreateGame";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="content-container">
+    <link href="~/Content/Styles/AddGame.css" rel="stylesheet" />
+    @using (Html.BeginForm("CreateGame", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="inputBox GameName">
+            <label>@Html.LabelFor(model => model.game.Name)</label>
+            @Html.EditorFor(model => model.game.Name)
+            <Label class="error">@Html.ValidationMessageFor(model => model.game.Name)</Label>
+        </div>
+        <div class="inputBox NumLifes">
+            <label>@Html.LabelFor(model => model.game.Lifes)</label>
+            @Html.EditorFor(model => model.game.Lifes)
+            <Label class="error">@Html.ValidationMessageFor(model => model.game.Lifes)</Label>
+        </div>
+        <div class="inputBox BonusTime">
+            <label>@Html.LabelFor(model => model.game.BonusTime)</label>
+            @Html.EditorFor(model => model.game.BonusTime)
+            <Label class="error">@Html.ValidationMessageFor(model => model.game.BonusTime)</Label>
+        </div>
+
+        <div class="inputBox GameImage">
+            <label>@Html.LabelFor(model => model.game.ImageURL)</label>
+            <input type="file" name="file" id="file" />
+            <Label class="error">@Html.ValidationMessageFor(model => model.game.ImageURL)</Label>
+        </div>
+
+        <button class="btnSave" type="submit">Opslaan</button>
+    }
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

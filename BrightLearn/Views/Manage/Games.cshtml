@@ -1,0 +1,113 @@
+﻿@model BrightLearn.ViewModels.Manage.GamesViewModel
+@{
+    ViewBag.Title = "Games";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/Content/Styles/games.css" rel="stylesheet" />
+<div class="content-container">
+
+
+    <div class="headTekst">
+        <label>Games :</label>
+    </div>
+    <div class="FillTheSpace">
+
+    </div>
+
+    <div class="inputBox ButtonHolder headTekst">
+        <a href="/Manage/CreateGame"><input type="button" value="Game aanmaken" /></a>
+    </div>
+
+    <div class="inputBox searchHolder headTekst">
+        <input type="text" id="SearchInput" onkeyup="SearchGamesTable()" placeholder="Zoek een game ... " />
+    </div>
+
+    <div class="tablebox">
+        <table id="GamesTable">
+            <tr class="Header">
+                <th>
+                    Naam
+                </th>
+                <th>
+                    Aantal Vragen
+                </th>
+                <th>
+                    Levens
+                </th>
+                <th>
+                    Bonustijd
+                </th>
+                <th>
+                    Online
+                </th>
+                <th>
+                    Opties
+                </th>
+            </tr>
+
+
+            @foreach (Models.Game game in Model.Games)
+            {
+            <tr>
+                <td>
+                    @game.Name
+                </td>
+
+                <td>
+                    @game.Questions.Count
+                </td>
+
+                <td>
+                    @game.Lifes
+                </td>
+
+                <td>
+                    @game.BonusTime sec
+                </td>
+                <td>
+                    <select onchange="ChangeOnlineStatus(@game.ID)" id="SelectType_@game.ID">
+                        @if (game.Online)
+                        {
+                            <option selected>Ja</option>
+                            <option >Nee</option>
+                        }
+                        else
+                        {
+                            <option>Ja</option>
+                            <option selected>Nee</option>
+                        }
+                    </select>
+                </td>
+
+                <td class="ButtonHolder HalfWidth">
+                    <a href="/Manage/Questions?GameID=@game.ID"><input type="button" value="Aanpassen" /></a>
+                    <a href="/Manage/DeleteGame?GameID=@game.ID"><input type="button" value="Verwijderen" /></a>
+                </td>
+            </tr>
+            }
+
+        </table>
+    </div>
+
+</div>
+<script src="~/Scripts/SearchGames.js"></script>
+
+<script>
+    function ChangeOnlineStatus(GameID) {
+        if (confirm("Weet u zeker dat u deze game online of ofline wilt zetten?")) {
+
+            var status = $("#SelectType_" + GameID).val();
+            if (status == "Ja") {
+                status = "true";
+            } else {
+                status = "false";
+            }
+
+            var url = "/Manage/UpdateGameOnlineStatus?ID=" + GameID + "&status=" + status;
+
+            $.get(url);
+        }
+    }
+</script>

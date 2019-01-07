@@ -1,0 +1,76 @@
+﻿@model BrightLearn.ViewModels.Statistic.StatisticQuestionsViewModel
+@{
+    ViewBag.Title = "Games";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/Styles/QuestionStatistics.css" rel="stylesheet" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+
+<div class="content-container">
+
+    <div class="inputBox headTekst Title">
+        <label><a href="~/Statistic/Games" style="text-align: center;color: black !important;text-decoration: none;">> @Model.game.Name statistics</a></label>
+    </div>
+
+    <div class="tablebox">
+        <table id="QuestionsTable">
+            <tr class="Header">
+                <th>
+                    Vraag
+                </th>
+                <th>
+                    Type
+                </th>
+            </tr>
+
+
+            @foreach (Models.Question question in Model.questions)
+            {
+                if (question.Type == Models.QuestionType.ImageQuestion)
+                {
+                    <tr>
+                        <td>
+                            @question.ImageQuestion.Question
+                        </td>
+                        <td>
+                            Afbeelding
+                        </td>
+                    </tr>
+                }
+                else if (question.Type == Models.QuestionType.MultipleChoise)
+                {
+                    <tr>
+                        <td>
+                            @question.MultipleChoiseQuestion.Question
+                        </td>
+                        <td>
+                            Multiple choise
+                        </td>
+                    </tr>
+                }
+            }
+
+        </table>
+    </div>
+
+    <div class="chart-container" style="grid-row: 2/4; grid-column: 1;">
+        <canvas style="width:auto;height:auto;max-width: 100%;" id="QuestionResultGraph"></canvas>
+    </div>
+
+    <div class="chart-container" style="grid-row: 2; grid-column: 2;">
+        <canvas style="width:auto;height:auto;max-width: 100%;" id="QuestionTime"></canvas>
+    </div>
+
+    <div class="chart-container" style="grid-row: 3; grid-column: 2;">
+        <canvas style="width:auto;height:auto;max-width: 100%;" id="QuestionLifes"></canvas>
+    </div>
+
+</div>
+
+
+<script>
+    function LoadGraph(QuestionID) {
+        
+    }
+
+</script>

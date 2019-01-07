@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="~/Content/Styles/main.css" rel="stylesheet" />
+    <title>Bright Learn</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/p5.js"></script>
+    <script src="~/Scripts/p5.dom.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <div class="nav">
+            <label><span class="brandname">Bright</span> Learn</label>
+            <div class="user">
+                <label id="LoggOffLink">@Session["fullName"]</label>
+            </div>
+        </div>
+        <div class="leftpanel">
+            @if (Session["Type"] == null)
+            {
+                <script>location.href = '@Url.Action("Index", "Login")';</script>
+            }
+            else if (Session["Type"].ToString() != "admin")
+            {
+                <style>
+                    .userButtons {
+                        grid-column: 1 / 3;
+                    }
+                </style>
+            }
+
+            <div class="userButtons">
+                <label>Browse</label>
+                <a href="@Url.Action("Index", "Home")">
+                    <input type="button" value="Spellen" />
+                </a>
+                <a href="@Url.Action("HighScore", "Home")">
+                    <input type="button" value="High score" />
+                </a>
+                <a href="@Url.Action("Account", "Home")">
+                    <input type="button" value="Account" />
+                </a>
+            </div>
+
+            @if (Session["Type"].ToString() == "admin")
+            {
+                <div class="adminButtons">
+                    <label>Managment</label>
+                    <a href="@Url.Action("Games", "Statistic")">
+                        <input type="button" value="Statestieken" />
+                    </a>
+                    <a href="@Url.Action("Games", "Manage")">
+                        <input type="button" value="Spellen" />
+                    </a>
+                    <a href="@Url.Action("Accounts", "Manage")">
+                        <input type="button" value="Accounts" />
+                    </a>
+                </div>
+            }
+
+        </div>
+        <div class="content">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $('#LoggOffLink').on('click', function () {
+        if (confirm('Weet u zeker dat u wilt uitloggen?')) {
+            window.location = "/Home/LogOff";
+        }
+    })
+</script>

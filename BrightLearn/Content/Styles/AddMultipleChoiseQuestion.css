@@ -1,0 +1,33 @@
+﻿.content-container-MultipleChoiseQuestion {
+    background: #fff;
+    height: 600px;
+    max-height: 600px;
+    width: auto;
+    max-width: 880px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 1em;
+    padding: 10px;
+    overflow: hidden;
+}
+
+    .content-container-MultipleChoiseQuestion .Question {
+        grid-column: 1/3;
+        grid-row: 1;
+    }
+    .content-container-MultipleChoiseQuestion .Numanswer {
+        grid-column: 1/3;
+        grid-row: 3;
+    }
+    .content-container-MultipleChoiseQuestion .Correctanswer {
+        grid-column: 1/3;
+        grid-row: 2;
+    }
+    .content-container-MultipleChoiseQuestion .answer {
+        grid-column: 1/3;
+        grid-row: 4/10;
+    }
+    .SubmitBTN {
+        grid-column: 2;
+        grid-row: 10;
+    }

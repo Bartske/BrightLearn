@@ -1,0 +1,70 @@
+﻿@model BrightLearn.ViewModels.Manage.EditQuestionViewModel
+
+@using (Html.BeginForm("EditMultipleChoiseQuestion", "Manage", FormMethod.Post))
+{
+<div name="values" style="display:none;">
+    <input type="hidden" value="@Model.Game.ID" name="GameID" />
+    <input type="hidden" value="@Model.Question.MultipleChoiseQuestion.ID" name="ID" />
+</div>
+
+    <div class="content-container-MultipleChoiseQuestion">
+        <link href="~/Content/Styles/AddMultipleChoiseQuestion.css" rel="stylesheet" />
+        <link href="~/Content/Styles/AddImageQuestion.css" rel="stylesheet" />
+
+        <div class="inputBox Question">
+            <label>Vraag :</label>
+            <input type="text" name="Question" value="@Model.Question.MultipleChoiseQuestion.Question">
+        </div>
+
+
+        <div class="inputBox Correctanswer">
+            <label>Correct antwoord :</label>
+            <input type="text" name="Correctanswer" value="@Model.Question.MultipleChoiseQuestion.Correctanswer">
+        </div>
+
+
+        <div class="inputBox Numanswer">
+            <label>Aantal foute antwoorden :</label>
+            <input type="number" id="NumOfanswer" min="2" max="8" value="@(Model.Question.MultipleChoiseQuestion.Answers.Count-1)" onchange="CreateanswerBoxes()">
+        </div>
+
+        <div class="answer" id="answerHolder">
+
+            @for (int i = 0; i < Model.Question.MultipleChoiseQuestion.Answers.Count; i++)
+            {
+                if (Model.Question.MultipleChoiseQuestion.Answers[i] != Model.Question.MultipleChoiseQuestion.Correctanswer)
+                {
+                    <div class="Numanswer inputBox">
+                        <label>Fout antwoord @(i+1):</label>
+                        <input type="text" name="answer[@i]" value="@Model.Question.MultipleChoiseQuestion.Answers[i]" />
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="SubmitBTN btnHolder">
+            <input type="submit" value="Opslaan" />
+        </div>
+
+    </div>
+
+}
+
+<script>
+    function CreateanswerBoxes() {
+        if ($('#NumOfanswer').val() > 8 || $('#NumOfanswer').val() < 2) {
+            alert('Je moet tussen de 1 en 9 antwoorden hebben!');
+        }
+        else {
+            let num = $('#NumOfanswer').val();
+            $('#answerHolder').html("");
+            let innerHTML = "";
+            for (var i = 0; i < num; i++) {
+                innerHTML += '<div class="Numanswer inputBox"><label> Fout antwoord ' + (i + 1) + ':</label ><input type="text" name="answer[' + i + ']"/></div >';
+            }
+            $('#answerHolder').html(innerHTML);
+        }
+    }
+
+
+</script>

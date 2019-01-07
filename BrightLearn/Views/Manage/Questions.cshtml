@@ -1,0 +1,133 @@
+﻿@model BrightLearn.ViewModels.Manage.QuestionsViewModel
+@{
+    ViewBag.Title = "Vragen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/Content/Styles/Vragen.css" rel="stylesheet" />
+<div class="content-container">
+
+    <input type="hidden" value="@Model.game.ID" id="GameID" />
+
+    <div class="inputBox headTekst Title">
+        <label><a href="~/Manage/Games" style="text-align: center;color: black !important;text-decoration: none;">> @Model.game.Name</a></label>
+    </div>
+
+    <div class="inputBox headTekst">
+        <label>Naam :</label>
+    </div>
+
+    <div class="inputBox headTekst">
+        <label>Levens :</label>
+    </div>
+
+    <div class="inputBox headTekst">
+        <label>Bonus :</label>
+    </div>
+
+    <div class="inputBox ButtonHolder">
+    </div>
+
+    <div class="inputBox">
+        <input type="text" placeholder="Naam" value="@Model.game.Name" id="GameName" />
+    </div>
+
+    <div class="inputBox">
+        <input type="number" placeholder="3" value="@Model.game.Lifes" id="GameLifes" />
+    </div>
+
+    <div class="inputBox">
+        <input type="number" placeholder="2" value="@Model.game.BonusTime" id="GameBonus" />
+    </div>
+
+    <div class="inputBox ButtonHolder">
+        <input type="button" value="Opslaan" onclick="SaveGameValues()" />
+    </div>
+
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+
+    <div class="headTekst">
+        <label>Vragen :</label>
+    </div>
+    <div class="FillTheSpace">
+
+    </div>
+
+    <div class="inputBox ButtonHolder headTekst">
+        <a href="/Manage/CreateQuestion?GameID=@Model.game.ID"><input type="button" value="Vraag aanmaken" /></a>
+    </div>
+
+    <div class="inputBox searchHolder headTekst">
+        <input type="text" id="SearchInput" onkeyup="SearchQuestionsTable()" placeholder="Zoek een vraag ... " />
+    </div>
+
+    <div class="tablebox">
+        <table id="QuestionsTable">
+            <tr class="Header">
+                <th>
+                    Vraag
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Opties
+                </th>
+            </tr>
+
+
+            @foreach (Models.Question question in Model.game.Questions)
+            {
+                if (question.Type == Models.QuestionType.ImageQuestion)
+                {
+                    <tr>
+                        <td>
+                            @question.ImageQuestion.Question
+                        </td>
+                        <td>
+                            Afbeelding
+                        </td>
+                        <td class="ButtonHolder HalfWidth">
+                            <a href="/Manage/EditQuestion?QuestionID=@question.QuestionID&GameID=@Model.game.ID"><input type="button" value="Aanpassen" /></a>
+                            <a href="/Manage/DeleteQuestion?QuestionID=@question.QuestionID&GameID=@Model.game.ID"><input type="button" value="Verwijderen" /></a>
+                        </td>
+                    </tr>
+                }
+                else if (question.Type == Models.QuestionType.MultipleChoise)
+                {
+                    <tr>
+                        <td>
+                            @question.MultipleChoiseQuestion.Question
+                        </td>
+                        <td>
+                            Multiple choise
+                        </td>
+                        <td class="ButtonHolder HalfWidth">
+                            <a href="/Manage/EditQuestion?QuestionID=@question.QuestionID&GameID=@Model.game.ID"><input type="button" value="Aanpassen" /></a>
+                            <a href="/Manage/DeleteQuestion?QuestionID=@question.QuestionID&GameID=@Model.game.ID"><input type="button" value="Verwijderen" /></a>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </table>
+    </div>
+
+</div>
+<script src="~/Scripts/SearchQuestions.js"></script>
+<script>
+    function SaveGameValues() {
+        var name = $('#GameName').val();
+        var lifes = $('#GameLifes').val();
+        var bonus = $('#GameBonus').val();
+        var GameID = $('#GameID').val();
+
+        var URL = "/Manage/SaveGameValues?Name=" + name + "&Lifes=" + lifes + "&Bonus=" + bonus + "&GameID=" + GameID;
+
+        $.get(URL);
+    }
+</script>

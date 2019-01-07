@@ -1,0 +1,119 @@
+﻿@model BrightLearn.ViewModels.Manage.AccountsViewModel
+@{
+    ViewBag.Title = "Accounts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/Styles/accounts.css" rel="stylesheet" />
+<div class="content-container">
+
+
+    <div class="headTekst">
+        <label>Accounts :</label>
+    </div>
+    <div class="FillTheSpace">
+
+    </div>
+
+    <div class="inputBox ButtonHolder headTekst">
+        <input type="button" value="Account genereren" onclick="GenerateUser()" />
+    </div>
+
+    <div class="inputBox searchHolder headTekst">
+        <input type="text" id="SearchInput" onkeyup="SearchAccountsTable()" placeholder="Zoek een persoon ... " />
+    </div>
+
+        <div class="ResponseHolder"><label>Gebruikersnaam : </label></div>
+        <div class="ResponseHolder"><span id="UserNameSpan"></span></div>
+        <div class="ResponseHolder"><label>Wachtwoord : </label></div>
+        <div class="ResponseHolder"><span id="PasswordSpan"></span></div>
+
+    <div class="tablebox">
+        <table id="AccountsTable">
+            <tr class="Header">
+                <th>
+                    Voornaam
+                </th>
+                <th>
+                    Tussenvoegsel
+                </th>
+                <th>
+                    Achternaam
+                </th>
+                <th>
+                    Type
+                </th>
+            </tr>
+
+
+            @foreach (Models.User acc in Model.Accounts)
+            {
+                <tr>
+                    <td>
+                        @acc.FirstName
+                    </td>
+
+                    <td>
+                        @acc.MiddleName
+                    </td>
+
+                    <td>
+                        @acc.LastName
+                    </td>
+
+                    <td>
+                        <select onchange="ChangeType(@acc.ID)" id="SelectType_@acc.ID">
+                            @if (acc.AccountType == "admin")
+                            {
+                                <option>Gebruiker</option>
+                                <option selected>Admin</option>
+                            }
+                            else
+                            {
+                                <option selected>Gebruiker</option>
+                                <option>Admin</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+
+</div>
+<script src="~/Scripts/SearchAccounts.js"></script>
+<script>
+    function ChangeType(UserID) {
+        if (confirm("Weet u zeker dat u deze gebruiker zn rechten wilt wijzigen?")) {
+
+            var type = $("#SelectType_" + UserID).val();
+            if (type == "Admin") {
+                type = "admin";
+            } else {
+                type = "user";
+            }
+
+            var url = "/Manage/UpdateUserType?ID=" + UserID + "&type=" + type;
+
+            $.get(url);
+        }
+    }
+
+    function GenerateUser() {
+
+        $.ajax({
+            type: "POST",
+            url: "/Manage/GenerateUser",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            success: function (data) {
+                console.log(data);
+                $('#UserNameSpan').text(data.UserName);
+                $('#PasswordSpan').text(data.Password);
+                $(".ResponseHolder").css("display", "unset");
+                $(".content-container").css("grid-auto-rows", "2em 2em 1fr");
+            }
+        });
+    }
+</script>

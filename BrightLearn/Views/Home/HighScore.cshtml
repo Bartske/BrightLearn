@@ -1,0 +1,72 @@
+﻿@model BrightLearn.ViewModels.Home.HighscoreViewModel
+@{
+    ViewBag.Title = "HighScore";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/Styles/highscore.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/SearchHighScore.js"></script>
+<script>
+    function ShowList(GameID) {
+        $('.highscorebox').find('div').each(function () {
+            $(this).addClass('hidden');
+        });
+        $('#' + GameID).removeClass('hidden');
+    }
+</script>
+
+<div class="content-container">
+    <div class="selectproject">
+        <label class="headTekst">Spellen :</label>
+        <input type="text" placeholder="Spelnaam" id="SearchInput" onkeyup="SearchGameTable()"/>
+
+        <div class="tablebox">
+            <table id="GameTable">
+                @foreach (Models.GameHighscore game in Model.gameHighscores)
+                {
+                    <tr>
+                        <td onclick="ShowList(@game.GameID)">
+                            @game.GameName
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+    <div class="highscorecontainer">
+        <div class="highscorebox">
+
+            @for (int i = 0; i < Model.gameHighscores.Count; i++)
+            {
+                Models.GameHighscore list = Model.gameHighscores[i];
+
+                <div id="@list.GameID" class="@(i == 0?"":"hidden")">
+                    <table style="width: 100%;">
+                        <tr>
+                            <th class="headTekst">
+                                Naam
+                            </th>
+                            <th class="headTekst">
+                                Punten
+                            </th>
+                        </tr>
+                        @for (int j = 0; j < list.Name.Count; j++)
+                        {
+                            <tr>
+                                <td>
+                                    @list.Name[j]
+                                </td>
+                                <td>
+                                    @list.points[j]
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
