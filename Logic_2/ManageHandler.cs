@@ -53,19 +53,21 @@ namespace Logic
 
             string Password = "WelkomBrightLearn1!";
             string SaltKey = EncryptHandler.RandomString(8);
+            string newPass = EncryptHandler.Encrypt(Password, SaltKey);
             Models.DataModels.Login login = new Models.DataModels.Login() {
                 UserName = UserName,
-                Password = Password,
+                Password = newPass,
                 Salt = SaltKey
             };
+            _dbContext.Login.Add(login);
             _dbContext.SaveChanges();
-            int LoginID = _dbContext.Login.Last().ID;
+            login = _dbContext.Login.OrderByDescending(u => u.ID).FirstOrDefault();
 
             Models.DataModels.User User = new Models.DataModels.User() {
                 Email = "nieuw@mail.nl",
                 FirstName = "Voornaam",
                 LastName = "Achternaam",
-                LoginID = LoginID,
+                LoginID = login.ID,
                 Type = "user"
             };
             _dbContext.User.Add(User);
